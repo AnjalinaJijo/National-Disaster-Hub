@@ -24,7 +24,7 @@ const Weather = () => {
     const handleSubmit =(event)=>{
       event.preventDefault();
 
-      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=9450b7e3ba51a10a3b4ad1e503ce839b`)
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=`)
       .then(response =>{
 
         setDate(new Date(response.data.dt *1000))
