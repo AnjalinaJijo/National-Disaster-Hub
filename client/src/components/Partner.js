@@ -1,9 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import {useRef,useState,useEffect} from 'react';
+import {useRef,useEffect} from 'react';
 import {faCheck,faTimes,faInfoCircle}from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import axios from '../api/axios';
+
+import { useDispatch,useSelector } from 'react-redux';
+import{
+   setUser,
+   setValidName,
+   setUserFocus,
+   setPwd,
+   setValidPwd,
+   setPwdFocus,
+   setMatchPwd,
+   setValidMatch,
+   setMatchFocus,
+   setSuccess,
+   setErrorMsg
+} from "../features/user/userSlice"
 
 //to validate username and password
 const USER_REGEX=/^[A-z][A-z0-9-_]{3,23}$/;//total 4 to 24 chars
@@ -15,20 +29,23 @@ const Partner = () => {
      const userRef = useRef();
      const errRef =useRef();
 
-     const [user,setUser]=useState('');
-     const[validName,setValidName]=useState(false);
-     const[userFocus,setUserFocus]=useState(false);
+   const dispatch = useDispatch();
 
-     const [pwd,setPwd]=useState('');
-     const[validPwd,setValidPwd]=useState(false);
-     const[pwdFocus,setPwdFocus]=useState(false);
+  const user = useSelector((state) => state.user.value.user);
+  const validName = useSelector((state) => state.user.value.validName);
+  const userFocus= useSelector((state) => state.user.value.userFocus);
 
-     const [matchPwd,setMatchPwd]=useState('');
-     const[validMatch,setValidMatch]=useState(false);
-     const[matchFocus,setMatchFocus]=useState(false);
+  const pwd = useSelector( (state) => state.user.value.pwd);
+  const validPwd = useSelector((state) => state.user.value.validPwd);
+  const pwdFocus= useSelector((state) => state.user.value.pwdFocus);
 
-     const[errMsg,setErrMsg]=useState('');
-     const[success,setSuccess]=useState(false);
+  const matchPwd= useSelector((state) => state.user.value.matchPwd);
+  const validMatch= useSelector((state) => state.user.value.validMatch);
+  const matchFocus = useSelector((state) => state.user.value.matchFocus);
+
+  const success= useSelector( (state) => state.user.value.success);
+
+  const errMsg= useSelector((state) => state.user.value.errMsg);
 
      useEffect(()=>{
         userRef.current.focus();
@@ -38,22 +55,23 @@ const Partner = () => {
         const result=USER_REGEX.test(user);
         console.log(result);
         console.log(user);
-        setValidName(result);
+        dispatch(setValidName({validName:result}));
      },[user])
 
      useEffect(()=>{
         const result=PWD_REGEX.test(pwd);
         console.log(pwd);
         console.log(result);
-        setValidPwd(result);
+        dispatch(setValidPwd({validPwd:result}));
+        console.log(validPwd)
         const match=(pwd===matchPwd);
-        setValidMatch(match);
+        dispatch(setValidMatch({validMatch:match}));
      },[pwd,matchPwd])
 
      //when user is editing remove the error message
      useEffect(()=>{
-        setErrMsg('');
-     },[user,pwd,matchPwd])
+      dispatch(setErrorMsg({errMsg:""}));
+     },[user,pwd,pwdFocus])
 
 
    const handleSubmit = async(event)=>{
@@ -62,7 +80,7 @@ const Partner = () => {
       const v1=USER_REGEX.test(user);
       const v2=PWD_REGEX.test(pwd);
       if(!v1||!v2){
-         setErrMsg("Invalid Entry");
+         dispatch(setErrorMsg({errMsg:"Invalid Entry"}));
          return;
       }
      
@@ -76,20 +94,20 @@ const Partner = () => {
          console.log(response?.data);
          console.log(response?.accessToken);
          console.log(JSON.stringify(response))
-         setSuccess(true);
+         dispatch(setSuccess({success:true}));
          //clear state and controlled inputs
          //need value attrib on inputs for this
-         setUser('');
-         setPwd('');
-         setMatchPwd('');
+         dispatch(setUser({user:''}));
+         dispatch(setPwd({pwd:''}));
+         dispatch(setMatchPwd({matchPwd:''}));
       }
       catch(err){
          if (!err?.response) {
-            setErrMsg('No Server Response');
+            dispatch(setErrorMsg({errMsg:"No Server Response"}));
         } else if (err.response?.status === 409) {
-            setErrMsg('Username Taken');
+         dispatch(setErrorMsg({errMsg:"User name taken"}));
         } else {
-            setErrMsg('Registration Failed')
+         dispatch(setErrorMsg({errMsg:"Registration Failed"}))
         }
         errRef.current.focus();
       }
@@ -97,17 +115,17 @@ const Partner = () => {
 
   return (
    <>
-   {success ? (<Success>
-      <Successbox>
+   {success ? (<div className='Success'>
+      <div className='Successbox'>
       <h1 style={{"color":"white","fontSize":"50px"}}>Success!</h1>
-      <Para><a href="/Login">Sign In</a></Para>
-      </Successbox>
-   </Success>
-   ):(<Section>
+      <p className='Para'><a href="/Login">Sign In</a></p>
+      </div>
+   </div>
+   ):(<section className="signin-box">
       {/* display error msg at top of field if it exist */}
       <section className="signBox">
       <p ref={errRef} className={errMsg?"errmsg":"offscreen"} aria-live="assertive">{errMsg}</p>
-      <Heading>Register</Heading>
+      <h1 className='Heading'>Register</h1>
       <form onSubmit={handleSubmit} className="Form" autoComplete='off'>
           <label htmlFor="username">UserName:
           <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
@@ -117,14 +135,14 @@ const Partner = () => {
                 id="username"
                 ref={userRef}
                 // autoComplete="off"
-                autocomplete="new-password"
-                onChange={(event)=>setUser(event.target.value)}
+                autoComplete="new-password"
+                onChange={(e)=>dispatch(setUser({user:e.target.value}))}
                 value={user}
                 required
                 aria-invalid={validName?"false":"true"}
                 aria-describedby="uidnote"
-                onFocus={()=>setUserFocus(true)}
-                onBlur={()=>setUserFocus(false)}
+                onFocus={()=>dispatch(setUserFocus({userFocus:true}))}
+                onBlur={()=>dispatch(setUserFocus({userFocus:false}))}
                 />
 
              <p id="uidnote" className={userFocus && user && !validName? "instructions":"offscreen"}>
@@ -141,13 +159,14 @@ const Partner = () => {
              </label>  
              <input type="password"
                     id="password"
-                    onChange={(e)=>setPwd(e.target.value)}
+                    onChange={(e)=>dispatch(setPwd({pwd:e.target.value}))}
                     value={pwd}
                     required
+                    autoComplete="new-password"
                     aria-invalid={validPwd ? "false":"true"}
                     aria-describedby="pwdnote"
-                    onFocus={()=> setPwdFocus(true)}
-                    onBlur={()=> setPwdFocus(false)}
+                    onFocus={()=> dispatch(setPwdFocus({pwdFocus:true}))}
+                    onBlur={()=> dispatch(setPwdFocus({pwdFocus:false}))}
             />
             <p id="pwdnote" className={pwdFocus &&!validPwd? "instructions":"offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle} />
@@ -157,18 +176,19 @@ const Partner = () => {
                           </p>
                           <label htmlFor="confirm_pwd">
                           Confirm Password:
-                          <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
-                          <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                          <FontAwesomeIcon icon={faCheck} className={validMatch && pwdFocus ? "valid" : "hide"} />
+                          <FontAwesomeIcon icon={faTimes} className={validMatch || !pwdFocus ? "hide" : "invalid"} />
                           </label>
 
                           <input type="password"
                                  id="confirm_pwd"
-                                 onChange={(e) => setMatchPwd(e.target.value)}
+                                 onChange={(e) => dispatch(setMatchPwd({matchPwd:e.target.value}))}
                                  value={matchPwd}
                                  required
+                                 autoComplete="new-password"
                                  aria-invalid={validMatch ? "false" : "true"}
                                  aria-describedby="confirmnote"
-                                 onFocus={() => setMatchFocus(true)}
+                                 onFocus={() => dispatch(setMatchFocus({matchFocus:true}))}
                           />
                            <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                           <FontAwesomeIcon icon={faInfoCircle} />
@@ -178,56 +198,24 @@ const Partner = () => {
                          Sign Up
                       </button>
       </form>
-      <Para> Already Registered? <br/>
+      <p className='Para'> Already Registered? <br/>
           <span className="line">
              <a href="/Login">Sign In</a>
-          </span></Para>
+          </span></p>
       </section>
       {/* <section>
          <h1>What does it mean to become an NDH Partner?</h1>
       </section> */}
-  </Section>)}
+  </section>)}
     </>
   )
 }
 
-const Section=styled.section`
-background: url("/images/bg1.jpg") center center / cover
-no-repeat fixed;
-height:100vh;
-display:flex;
-justify-content: center;
-align-items: center;
-position:relative;
 
-`;
-const Heading=styled.h1`
-font-size:60px;
-font-weight:bold;
-color:white;
-`;
 
-const Para=styled.p`
-font-size:20px;
-color:white;
-`;
 
-const Success=styled.section`
-background: url("/images/bg1.jpg") center center / cover
-no-repeat fixed;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-`;
-const Successbox=styled.div`
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-position:absolute;
-background-color: rgba(0,0,0,0.5);
-padding:5rem;
-`;
+
+
+
 
 export default Partner

@@ -1,30 +1,41 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
+import { useRef, useEffect, useContext } from 'react';
 import AuthContext from "../context/AuthProvider";
 
 import axios from '../api/axios';
 
 import CheckIn from './CheckIn';
 
+import { useDispatch,useSelector } from 'react-redux';
+import{
+   setUser,
+   setPwd,
+   setSuccess,
+   setErrorMsg
+} from "../features/user/userSlice"
 
 const LOGIN_URL = '/auth';
 
 const Login = () => {
+
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user.value.user);
+    const pwd = useSelector( (state) => state.user.value.pwd);
+
+    const success= useSelector( (state) => state.user.value.success);
+    const errMsg= useSelector((state) => state.user.value.errMsg);
+
     const { setAuth } = useContext(AuthContext);
+   //to have first input being focussed automatically
     const userRef = useRef();
     const errRef = useRef();
-
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
     }, [])
 
     useEffect(() => {
-        setErrMsg('');
+        dispatch(setErrorMsg({errMsg:''}));
     }, [user, pwd])
 
     const handleSubmit = async (e) => {
@@ -43,18 +54,18 @@ const Login = () => {
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             setAuth({ user, pwd, roles, accessToken });
-            setUser('');
-            setPwd('');
-            setSuccess(true);
+            dispatch(setUser({user:''}));
+            dispatch(setPwd({pwd:''}));
+            dispatch(setSuccess({success:true}));
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
+                dispatch(setErrorMsg({errMsg:'No Server Response'}));
             } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password');
+                dispatch(setErrorMsg({errMsg:'Missing Username or Password'}));
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                dispatch(setErrorMsg({errMsg:'Unauthorized'}));
             } else {
-                setErrMsg('Login Failed');
+                dispatch(setErrorMsg({errMsg:'Login Failed'}));
             }
             errRef.current.focus();
         }
@@ -64,19 +75,12 @@ const Login = () => {
         <>
             {success ? (
                 <CheckIn />
-                // <section>
-                //     <h1>You are logged in!</h1>
-                //     <br />
-                //     <p>
-                //         <a href="#">Go to Home</a>
-                //     </p>
-                // </section>
             ) : (
                 <div className="Section">
-                    <div className="logobox">
-                    <h1 className="logo">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
+                    <div className="logo-div-sub">
+                    <h1 className="logo-sub">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
                     </div>
-                <section className="signin">
+                <section className="checkin">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
@@ -86,7 +90,7 @@ const Login = () => {
                             id="username"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
+                            onChange={(e) => dispatch(setUser({user:e.target.value}))}
                             value={user}
                             required
                         />
@@ -95,7 +99,7 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
+                            onChange={(e) => dispatch(setPwd({pwd:e.target.value}))}
                             value={pwd}
                             required
                         />
@@ -115,30 +119,5 @@ const Login = () => {
     )
 }
 
-
-const Section=styled.section`
-background: url("bg1.jpg") center center / cover
-no-repeat fixed;
-height:100vh;
-display:flex;
-justify-content: center;
-align-items: center;
-// position:relative;
-`;
-
-const SignIn=styled.section`
-width:100%;
-max-width:400px;
-min-height:400px;
-position:relative;
-// left:120px;
-padding:5rem;
-background-color: rgba(0,0,0,0.5);
-
-input{
-    margin-top:0.5rem;
-    margin-bottom:0.5rem;
-  }
-`;
 
 export default Login

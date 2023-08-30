@@ -1,35 +1,47 @@
 
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import axios from '../api/axios';
+import { useDispatch,useSelector} from 'react-redux';
+import {
+  setPersonFirstName,
+  setPersonLastName,
+  setPersonProvidedLocation,
+  setPersonFamily,
+  setPersonLocation,
+  setSuccess
+} from "../features/person/personSlice"
 
 const LOGIN_URL = '/checkin';
 
 const CheckIn = () => {
 
-  const [firstName,setfirstName] = useState("")
-  const [lastName,setlastName] = useState("")
-  const [providedLocation,setprovidedLocation] = useState("")
-  const [familyMember,setfamilyMember] = useState("")
-  const [country,setCountry] = useState("")
-  const [region,setRegion] = useState("")
-  const [city,setCity] = useState("")
-  const [lat,setlat] = useState("")
-  const [long,setlong] = useState("")
+  const dispatch = useDispatch();
 
-
-  // const [errMsg, setErrMsg] = useState('');
-  const[success,setSuccess] = useState(false)
+ 
+  const firstName = useSelector((state) => state.person.value.firstName);
+  const lastName = useSelector((state) => state.person.value.lastName);
+  const providedLocation= useSelector((state) => state.person.value.providedLocation);
+  const familyMember = useSelector( (state) => state.person.value.familyMember);
+  const country = useSelector((state) => state.person.value.country);
+  const region= useSelector((state) => state.person.value.region);
+  const city= useSelector((state) => state.person.value.city);
+  const loc = useSelector((state) => state.person.value.loc);
+  const success= useSelector((state) => state.person.value.success);
 
 
   useEffect(()=>{
        //to find location info
-       axios.get('https://ipapi.co/json/').then((response) => {
+       axios.get(LOGIN_URL).then((response) => {
         let data = response.data;
-        setCountry(data.country_name)
-        setRegion(data.region)
-        setCity(data.city)
-        setlat(data.latitude)
-        setlong(data.longitude)
+        dispatch(
+        setPersonLocation({
+        country:data.country,
+        region:data.region,
+        city:data.city,
+        loc:data.loc
+      })
+        )
+
     })
     .catch((error) => {
         console.log(error);
@@ -40,17 +52,16 @@ const CheckIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-
         const response = axios.post(LOGIN_URL,
-          JSON.stringify({ firstName,lastName,providedLocation,familyMember,country,region,city,lat,long }),
+          JSON.stringify({firstName,lastName,providedLocation,familyMember,country,region,city,loc}),
           {
               headers: { 'Content-Type': 'application/json' },
               withCredentials: true
           }
       )
       .then((res)=>{
-        setSuccess(true)
         console.log(res.data)
+        dispatch(setSuccess({success:true}))
       })
       .catch((err)=>{
         console.log("error")
@@ -62,10 +73,10 @@ const CheckIn = () => {
     <>
     {success ? (
       <div className='Section'>
-        <div className="logobox">
-        <h1 className="logo">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
+        <div className="logo-div-sub">
+        <div className="logo-sub">N   D   H <p className='logo-txt'>National Disaster Hub</p></div>
         </div>
-        <section className='checkedinnote'>
+        <section className='checkin-success'>
         <p>Thank you for checking in {firstName}.
         <br/>We are relieved to hear you are safe. Checking in will help your loved ones find that same relief.
         </p>
@@ -81,22 +92,22 @@ const CheckIn = () => {
           <p>Country : {country}</p>
           <p>Region : {region}</p>
           <p>City : {city}</p>
-          <p>Latitude : {lat}</p>
-          <p>Longitude : {long}</p>
+          <p>Location : {loc}</p>
         </section>
       </section>
       </div>
     )
     :(
     <div className="Section">
-      <div className="logobox">
-    <h1 className="logo">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
+    <div className="logo-div-sub">
+    <div className='logo-sub'>N   D   H <p className='logo-txt'>National Disaster Hub</p></div>
     </div>
-    <form className="signin">
-      <input onChange={e=>{setfirstName(e.target.value)}} placeholder="First Name" type="text" />
-      <input onChange={e=>{setlastName(e.target.value)}} placeholder="Last Name" type="text"/>
-      <input onChange={e=>{setprovidedLocation(e.target.value)}} placeholder="Provided Location" type="text"/>
-      <input onChange={e=>{setfamilyMember(e.target.value)}} placeholder="Family Member" type="text"/>
+    <form className="checkin">
+      <h3>Check in for your dear ones to find you are safe</h3>
+      <input onChange={e=>dispatch(setPersonFirstName({firstName:(e.target.value).toUpperCase()}))} placeholder="First Name" type="text" />
+      <input onChange={e=>dispatch(setPersonLastName({lastName:(e.target.value).toUpperCase()}))} placeholder="Last Name" type="text"/>
+      <input onChange={e=>dispatch(setPersonProvidedLocation({providedLocation:(e.target.value).toUpperCase()}))} placeholder="Provided Location" type="text"/>
+      <input onChange={e=>dispatch(setPersonFamily({familyMember:(e.target.value).toUpperCase()}))} placeholder="Family Member" type="text"/>
       {/* <button onClick={addMore}>Add more familyMemberatives</button> */}
       <button onClick={handleSubmit}>Submit</button>
     </form>

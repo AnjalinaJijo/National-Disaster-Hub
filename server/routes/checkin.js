@@ -5,7 +5,7 @@ const checkinController = require('../controllers/checkinController')
 
 // router.use(verifyJWT)
 router.route('/')
-    .get(checkinController.getPerson)
+    .get(checkinController.getLocation)
     .post(checkinController.createNewPerson)
 
     module.exports = router

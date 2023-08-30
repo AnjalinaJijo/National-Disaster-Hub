@@ -29,12 +29,8 @@ const PersonSchema= new mongoose.Schema({
         type:String,
         required:true
     },
-    lat:{
-        type:Number,
-        required:true
-    },
-    long:{
-        type:Number,
+    loc:{
+        type:String,
         required:true
     }
 })

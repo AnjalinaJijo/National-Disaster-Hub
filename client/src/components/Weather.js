@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import axios from '../api/axios';
 
+const URL ='/weatherapi';
+
 const Weather = () => {
     const [place,setPlace] = useState("");
 
@@ -24,7 +26,14 @@ const Weather = () => {
     const handleSubmit =(event)=>{
       event.preventDefault();
 
-      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=`)
+
+      axios.post(URL,
+        JSON.stringify({place}),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        })
+      
       .then(response =>{
 
         setDate(new Date(response.data.dt *1000))
@@ -86,10 +95,10 @@ const Weather = () => {
   ):
     (
     <div className='weather-city'>
-      <div className="logobox">
-        <h1 className="logo">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
+      <div className="logo-div-sub">
+        <h1 className="logo-sub">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
         </div>
-    <form className="signin">
+    <form className="checkin">
       <input onChange={(e)=>{setPlace(e.target.value)}} placeholder="Enter city" type="text" />
       <button onClick={handleSubmit}>Submit</button>
     </form>
@@ -100,7 +109,4 @@ const Weather = () => {
 }
 
 export default Weather
-{/* <p className="card-text">High Feels like ${day.feels_like.day}&deg;C</p> */}
-                  {/* <p className="card-text">UV Index ${day.uvi}</p> */}
-                  {/* <p className="card-text">Precipitation ${day.pop * 100}%</p> */}
-                  {/* <p className="card-text">Dewpoint ${day.dew_point}</p> */}
+
