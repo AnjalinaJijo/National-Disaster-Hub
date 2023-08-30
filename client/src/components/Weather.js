@@ -26,12 +26,14 @@ const Weather = () => {
     const handleSubmit =(event)=>{
       event.preventDefault();
 
+
       axios.post(URL,
         JSON.stringify({place}),
         {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true
         })
+      
       .then(response =>{
 
         setDate(new Date(response.data.dt *1000))
@@ -107,3 +109,4 @@ const Weather = () => {
 }
 
 export default Weather
+
