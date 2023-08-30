@@ -63,6 +63,7 @@ app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 app.use('/find',require('./routes/findPerson'));
 app.use('/checkin',require('./routes/checkin'));
+app.use('/weatherapi',require('./routes/weatherapi'));
 
 
 

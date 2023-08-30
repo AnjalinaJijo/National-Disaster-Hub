@@ -6,7 +6,8 @@ const allowedOrigins=[
     'http://localhost:3000/Login',
     'http://localhost:3500/auth',
     'http://localhost:3500/checkin',
-    'http://localhost:3500/find'
+    'http://localhost:3500/find',
+    'http://localhost:3500/weatherapi'
 ];
 
 module.exports=allowedOrigins;

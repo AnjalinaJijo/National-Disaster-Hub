@@ -1,23 +1,21 @@
 
 const Person = require('../model/Person')
 require('express-async-errors')
+
+const axios = require('axios')
+
 // @desc Get a Person 
 // @route GET /findsomeone
 // @access Private
-const getPerson = async(req,res)=>{
-    const {firstName,lastName} = req.body
+const getLocation = async(req,res)=>{
 
-    const person = await Person.findOne({"firstName":firstName,"lastName":lastName}).lean().exec()
-    // const person = await Person.findOne().lean().exec()
-
-    if(person){
-        // console.log(person)
-        // return res.status(201).json({ message: 'New Person created' })
-        res.json(person)
-        
-    }
-        //    res.json(person)
-        return res.status(400).json({ message: 'Person not found' }) 
+    axios.get(`https://ipinfo.io/100.12.27.156/json?token=${process.env.ipinfoToken}`)
+    .then((response) =>{
+        res.json(response.data)
+    })
+    .catch(function(error){
+        console.log(error);
+    });  
    
 }
 
@@ -25,25 +23,25 @@ const getPerson = async(req,res)=>{
 // @route POST /notes
 // @access Private
 const createNewPerson = async(req,res)=>{
-    const {firstName,lastName,providedLocation,familyMember,country,region,city,lat,long} = req.body
+    const {firstName,lastName,providedLocation,familyMember,country,region,city,loc} = req.body
     if (!firstName || !lastName || !providedLocation || !familyMember) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
-    const duplicate = await Person.findOne({firstName,lastName}).lean().exec()
+    const duplicate = await Person.findOne({firstName,lastName,providedLocation}).lean().exec()
 
     if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate note title' })
+        return res.status(409).json({ message: 'Duplicate Entry' })
     }
 
+    
 //   Create and store the new person 
- const person = await Person.create({firstName,lastName,providedLocation,familyMember,country,region,city,lat,long})
+ const person = await Person.create({firstName,lastName,providedLocation,familyMember,country,region,city,loc})
  if (person) { // Created 
-    return res.status(201).json({ message: 'New Person created' })
+    return res.status(201).json(person)
 } else {
     return res.status(400).json({ message: 'Invalid note data received' })
 }
-console.log(person)
 }
 
 
@@ -56,6 +54,6 @@ console.log(person)
 
 
 module.exports = {
-    getPerson,
+    getLocation,
     createNewPerson
 }
