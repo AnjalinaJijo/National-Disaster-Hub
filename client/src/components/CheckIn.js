@@ -103,6 +103,7 @@ const CheckIn = () => {
     <div className='logo-sub'>N   D   H <p className='logo-txt'>National Disaster Hub</p></div>
     </div>
     <form className="checkin">
+      <h3>Check in for your dear ones to find you are safe</h3>
       <input onChange={e=>dispatch(setPersonFirstName({firstName:(e.target.value).toUpperCase()}))} placeholder="First Name" type="text" />
       <input onChange={e=>dispatch(setPersonLastName({lastName:(e.target.value).toUpperCase()}))} placeholder="Last Name" type="text"/>
       <input onChange={e=>dispatch(setPersonProvidedLocation({providedLocation:(e.target.value).toUpperCase()}))} placeholder="Provided Location" type="text"/>

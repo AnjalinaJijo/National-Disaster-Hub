@@ -1,4 +1,3 @@
-import React,{useState} from 'react'
 import axios from '../api/axios';
 import { useDispatch,useSelector} from 'react-redux';
 import {
@@ -30,23 +29,6 @@ const FindPerson = () => {
   const error= useSelector((state) => state.person.value.error);
 
 
-  // const [firstName,setfirstName] = useState("")
-  // const [lastName,setlastName] = useState("")
-
-
-  // const [providedLocation,setprovidedLocation] = useState("")
-  // const [familyMember,setfamilyMember] = useState("")
-  // const [country,setCountry] = useState("")
-  // const [region,setRegion] = useState("")
-  // const [city,setCity] = useState("")
-  // const [lat,setlat] = useState("")
-  // const [long,setlong] = useState("")
-
-
-  // const[success,setSuccess] = useState(false)
-  // const[error,setError] = useState(false)
-
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     const response = await axios.post(LOGIN_URL,JSON.stringify({firstName,lastName}),
@@ -56,13 +38,6 @@ const FindPerson = () => {
     })
     .then((res)=>{console.log(res.data)
       const data=res.data
-    // setprovidedLocation(res.data.providedLocation)
-    // setfamilyMember(res.data.familyMember)
-    // setCountry(res.data.country)
-    // setRegion(res.data.region)
-    // setCity(res.data.city)
-    // setlat(res.data.lat)
-    // setlong(res.data.long)
     dispatch(
       setPersonProvidedLocation({
         providedLocation:data.providedLocation

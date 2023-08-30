@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {useRef,useEffect} from 'react';
 import {faCheck,faTimes,faInfoCircle}from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

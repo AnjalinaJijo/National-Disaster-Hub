@@ -30,11 +30,6 @@ const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-    // const [user, setUser] = useState('');
-    // const [pwd, setPwd] = useState('');
-    // const [errMsg, setErrMsg] = useState('');
-    // const [success, setSuccess] = useState(false);
-
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -80,13 +75,6 @@ const Login = () => {
         <>
             {success ? (
                 <CheckIn />
-                // <section>
-                //     <h1>You are logged in!</h1>
-                //     <br />
-                //     <p>
-                //         <a href="#">Go to Home</a>
-                //     </p>
-                // </section>
             ) : (
                 <div className="Section">
                     <div className="logo-div-sub">
