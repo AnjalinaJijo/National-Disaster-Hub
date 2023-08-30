@@ -90,10 +90,10 @@ mongoose.connection.once('open', () => {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 
-mongoose.connection.on('error',(err)=>{
-    console.log(err)
-    logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
-})
+// mongoose.connection.on('error',(err)=>{
+//     console.log(err)
+//     logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
+// })
 
 // const per=require("./models/per");
 // app.get('/per',async(req,res)=>{
