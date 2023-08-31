@@ -32,7 +32,7 @@ connectDB();
 app.use(credentials);
 
 // Cross Origin Resource Sharing
-app.use(cors());
+app.use(cors(corsOptions));
 
 //BUILD IN MIDDLEWARE to handle urlencoded data
 //in other words form data
