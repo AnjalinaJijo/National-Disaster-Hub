@@ -11,7 +11,7 @@ import {
   setSuccess
 } from "../features/person/personSlice"
 
-const LOGIN_URL = '/checkin';
+const LOGIN_URL = 'checkin';
 
 const CheckIn = () => {
 
