@@ -1,0 +1,152 @@
+.Section {
+    position: relative;
+    padding: 20px;
+    background-color: #000;
+    /* Set the background color to black */
+    color: #fff;
+    /* Set text color to white for better contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* margin: 20px; */
+    /* width: 100vw; */
+    /* height: 100vh; */
+}
+.Success-Section {
+    position: relative;
+    padding: 20px;
+    background-color: #000;
+    /* Set the background color to black */
+    color: #fff;
+    /* Set text color to white for better contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.logo-div-sub {
+    display: flex;
+    align-items: center;
+}
+
+.logo-sub {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo-txt {
+    font-size: 0.8rem;
+    color: #ccc;
+}
+
+
+.form-bg{
+    background-color: rgba(256, 256, 256, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:10px;
+    margin-top:10px;
+}
+
+.checkin,
+.checkin-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    padding: 20px;
+    /* Slightly lighter background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    color: #fff;
+    text-align: center;
+}
+
+.checkin-success h5{
+    font-size: 1.8rem;
+    padding:20px;
+    font-weight: normal;
+}
+.checkin-success h6{
+    font-size: 1rem;
+    padding:10px;
+    font-weight: normal;
+    color:#ccc
+}
+.checkin-success p{
+    font-size: 1.4rem;
+    /* font-weight: normal; */
+}
+
+.checkin-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* padding-bottom: 10px; */
+    padding-top: 50px;
+    font-size: 1.7rem;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    /* width: 80%; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #333;
+    /* Dark background for input fields */
+    color: #fff;
+    font-size: 0.9rem; /* Reduced text size inside input fields */
+    /* White text color */
+}
+
+input::placeholder {
+    font-size: 1rem;
+    /* Smaller placeholder text size */
+}
+
+
+
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    /* background-color: #007bff; */
+    background-color: #db2777;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #be185d;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.data p {
+    margin: 5px 0;
+}
+
+
+/* Media query for small screens */
+@media (max-width: 400px) {
+
+    .checkin-heading {
+        font-size: 0.2rem;
+    }
+}

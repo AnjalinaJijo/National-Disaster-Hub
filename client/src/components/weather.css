@@ -1,0 +1,40 @@
+.Section {
+    position: relative;
+    padding: 20px;
+    background-color: #000;
+    /* Set the background color to black */
+    color: #fff;
+    /* Set text color to white for better contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* margin: 20px; */
+    width: 100vw;
+    height: 100vh;
+}
+
+
+.weather-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    padding: 20px;
+    /* Slightly lighter background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    color: #fff;
+    text-align: center;
+
+    background-color: rgba(256, 256, 256, 0.1);
+    width:fit-content;
+}
+
+
+
+.weather-form h5{
+    font-size: 1.5rem;
+    padding:20px;
+    
+}

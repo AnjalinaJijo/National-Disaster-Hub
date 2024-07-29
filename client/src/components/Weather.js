@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import axios from '../api/axios';
-
+import "./weather.css"
 const URL ='/weatherapi';
 
 const Weather = () => {
@@ -94,11 +94,12 @@ const Weather = () => {
     </div>
   ):
     (
-    <div className='weather-city'>
+    <div className='Section'>
       <div className="logo-div-sub">
         <h1 className="logo-sub">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
         </div>
-    <form className="checkin">
+    <form className="weather-form">
+      <h5>Find Weather in your city</h5>
       <input onChange={(e)=>{setPlace(e.target.value)}} placeholder="Enter city" type="text" />
       <button onClick={handleSubmit}>Submit</button>
     </form>

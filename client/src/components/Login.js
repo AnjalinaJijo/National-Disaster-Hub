@@ -1,6 +1,7 @@
 import { useRef, useEffect, useContext } from 'react';
 import AuthContext from "../context/AuthProvider";
 
+import "./login.css"
 import axios from '../api/axios';
 
 import CheckIn from './CheckIn';
@@ -80,7 +81,7 @@ const Login = () => {
                     <div className="logo-div-sub">
                     <h1 className="logo-sub">N   D   H <p className='logo-txt'>National Disaster Hub</p></h1>
                     </div>
-                <section className="checkin">
+                <section className="login">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>

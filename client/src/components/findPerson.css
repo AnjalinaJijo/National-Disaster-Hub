@@ -1,0 +1,76 @@
+.Section {
+    position: relative;
+    padding: 20px;
+    background-color: #000;
+    /* Set the background color to black */
+    color: #fff;
+    /* Set text color to white for better contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* margin: 20px; */
+    width: 100vw;
+    height: 100vh;
+}
+
+.find{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    padding: 20px;
+    /* Slightly lighter background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    color: #fff;
+    text-align: center;
+
+    background-color: rgba(256, 256, 256, 0.1);
+    width:fit-content;
+}
+
+.find h5{
+    padding:20px;
+
+    font-size: 1rem;
+    padding:10px;
+    font-weight: normal;
+    color:#ccc
+}
+
+
+.found h1{
+    padding:20px;
+    font-size:2rem;
+}
+.found p{
+    font-size:1.5rem;
+}
+
+
+  
+.founddetails{
+    /* background: url("../../public/images/f.jpg") center center / cover no-repeat fixed; */
+    background-color: #000;
+    min-height:100vh;
+    font-family: 'Outfit', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color:white;
+    font-size: 30px;
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+        
+}
+.found{
+    background-color: rgba(256,256,256,0.1);
+    padding:3rem;
+    max-width:90%;
+    min-height:80%;
+    margin:10px auto;
+    border-radius: 5%;
+}

@@ -1,0 +1,38 @@
+.Section {
+    position: relative;
+    padding: 20px;
+    background-color: #000;
+    /* Set the background color to black */
+    color: #fff;
+    /* Set text color to white for better contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* margin: 20px; */
+    width: 100vw;
+    height: 100vh;
+}
+
+
+.login{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* text-align: center; */
+    gap:3px;
+    max-width:340px;
+    min-height:340px;
+    padding:2rem;
+    
+    margin:20px auto;
+    background-color: rgba(256,256,256,0.1);
+    color:white;
+}
+
+.login h1{
+    font-size:2rem;
+    padding:20px;
+}
+.login p{
+    font-size:1.3rem;
+    padding:10px;
+}
