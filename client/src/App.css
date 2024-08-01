@@ -406,8 +406,8 @@ p {
     z-index:5;
     }
     .card-txt{
-        width:20%;
-        height:auto;
+        /* width:20%; */
+        /* height:auto; */
         margin:0 auto;
         padding:0.5rem;
         visibility:hidden;
@@ -439,11 +439,10 @@ p {
     z-index:5;
     }
     .card-txt{
-        width:30%;
-        height:auto;
-        margin:0 auto;
+        /* width:100%; */
         padding:0.5rem;
-        visibility:hidden;
+        /* visibility:hidden; */
+        visibility:visible;
         font-size: 20px;
         border:2px solid white;
         text-align: center;
